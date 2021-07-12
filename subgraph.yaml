@@ -1,0 +1,34 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: SafeMoon
+    network: bsc
+    source:
+      address: '0x8076C74C5e3F5852037F31Ff0093Eeb8c8ADd8D3'
+      abi: SafeMoon
+      startBlock: 7796111
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Contract
+      abis:
+        - name: SafeMoon
+          file: ./abis/SafeMoon.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: MinTokensBeforeSwapUpdated(uint256)
+          handler: handleMinTokensBeforeSwapUpdated
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: SwapAndLiquify(uint256,uint256,uint256)
+          handler: handleSwapAndLiquify
+        - event: SwapAndLiquifyEnabledUpdated(bool)
+          handler: handleSwapAndLiquifyEnabledUpdated
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts
